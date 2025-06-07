@@ -8,7 +8,7 @@ const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const app = express();
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "https://service-review-system-a0858.web.app",
     credentials: true, // কুকি এক্সচেঞ্জ করার জন্য
   })
 );
