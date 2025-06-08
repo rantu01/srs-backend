@@ -114,8 +114,8 @@ async function run() {
         // ✅ Set session cookie in response
         res.cookie("Token", idToken, {
           httpOnly: true,
-          secure: false,
-          sameSite: "Lax",
+          secure: true,
+          sameSite: "None",
         });
 
         res.status(200).send({ message: "Login successful!" });
