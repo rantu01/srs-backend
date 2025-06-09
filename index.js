@@ -8,7 +8,7 @@ const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const app = express();
 app.use(
   cors({
-    origin: "https://service-review-system-a0858.web.app",
+    origin: "https://service-review-system.surge.sh",
     credentials: true, // কুকি এক্সচেঞ্জ করার জন্য
   })
 );
@@ -108,7 +108,7 @@ async function run() {
     ///jwt token
     app.post("/jwt", async (req, res) => {
       const { idToken } = req.body;
-      console.log("Received idToken:", idToken);
+      //console.log("Received idToken:", idToken);
 
       try {
         // ✅ Set session cookie in response
@@ -120,7 +120,7 @@ async function run() {
 
         res.status(200).send({ message: "Login successful!" });
       } catch (error) {
-        console.error("Login error:", error);
+        //console.error("Login error:", error);
         res.status(401).send("Unauthorized");
       }
     });
