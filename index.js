@@ -6,12 +6,32 @@ require("dotenv").config();
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 
 const app = express();
+
+const allowedOrigins = [
+  "https://service-review-system.surge.sh",
+  "http://localhost:5173", // example for local development
+  "https://service-review-system-a0858.web.app",
+];
+
 app.use(
   cors({
-    origin: "https://service-review-system.surge.sh",
-    credentials: true, // কুকি এক্সচেঞ্জ করার জন্য
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
   })
 );
+
+// app.use(
+//   cors({
+//     origin: "https://service-review-system.surge.sh",
+//     credentials: true, // কুকি এক্সচেঞ্জ করার জন্য
+//   })
+// );
 app.use(express.json());
 app.use(cookieParser());
 
@@ -35,8 +55,10 @@ app.get("/", (req, res) => {
 
 const admin = require("firebase-admin");
 
-const decodedFB = Buffer.from(process.env.JWT_SECRET, 'base64').toString('utf8');
-const serviceAccount = JSON.parse(decodedFB)
+const decodedFB = Buffer.from(process.env.JWT_SECRET, "base64").toString(
+  "utf8"
+);
+const serviceAccount = JSON.parse(decodedFB);
 
 //const serviceAccount = require("./service-review-system-a0858-firebase-adminsdk-fbsvc-5949a9ed08.json");
 
@@ -72,7 +94,6 @@ admin.initializeApp({
 
 const verifyFirebaseToken = async (req, res, next) => {
   const token = req.cookies.Token; // NOT destructuring here
-  
 
   try {
     const decoded = await admin.auth().verifyIdToken(token);
@@ -234,21 +255,17 @@ async function run() {
     });
 
     // Get services by user email
-    app.get(
-      "/my-services",
-      verifyFirebaseToken,
-      async (req, res) => {
-        const email = req.query.email;
-        try {
-          const services = await servicesCollection
-            .find({ userEmail: email })
-            .toArray();
-          res.send(services);
-        } catch (error) {
-          res.status(500).send({ error: "Failed to fetch user services" });
-        }
+    app.get("/my-services", verifyFirebaseToken, async (req, res) => {
+      const email = req.query.email;
+      try {
+        const services = await servicesCollection
+          .find({ userEmail: email })
+          .toArray();
+        res.send(services);
+      } catch (error) {
+        res.status(500).send({ error: "Failed to fetch user services" });
       }
-    );
+    });
 
     // Update a service by ID
     app.put("/services/:id", verifyFirebaseToken, async (req, res) => {
@@ -412,5 +429,4 @@ run().catch(console.dir);
 
 app.listen(PORT, () => {
   console.log(`🚀 Server is running on port ${PORT}`);
-});  
-
+});
