@@ -1,110 +1,178 @@
-🔥 Service Review System — Backend API
-RESTful API powering the Service Review System (SRS) with secure authentication, CRUD operations, and MongoDB integration.
+Here’s a clean and professional `README.md` file tailored for your **[SRS Backend](https://github.com/rantu01/srs-backend)** repository — the backend for your **Service Review System** project.
 
-🔗 Live Demo: https://service-review-system-a0858.web.app/
-📂 Frontend Repo: srs-frontend https://github.com/rantu01/SRS
+---
 
-🚀 Features
-🔐 Secure Authentication
+```markdown
+# 💬 Service Review System - Backend
 
-Firebase (Google Sign-In) + JWT token validation.
+This is the **backend** for the [Service Review System (SRS)](https://github.com/rantu01/SRS), a full-stack web application where users can add services, write reviews, and explore feedback from others. This backend is built using **Node.js**, **Express.js**, and **MongoDB**, and uses **JWT with cookies** for secure authentication.
 
-Protected routes using middleware.
+> 🔗 **Frontend Repository:** [SRS Frontend](https://github.com/rantu01/SRS)
 
-📡 RESTful API Endpoints
+---
 
-Full CRUD for services and reviews.
+## ⚙️ Features
 
-Pagination, filtering, and sorting.
+- 🔐 JWT authentication with secure HTTP-only cookies
+- ➕ Add new services with details (image, title, description, etc.)
+- 💬 Post, update, and delete service reviews
+- 🧑 Routes protected by user authentication middleware
+- 📅 Auto timestamp for services and reviews
+- 📁 Organized route and controller structure
+- 🌐 CORS-enabled API to connect with frontend
 
-⚡ Optimized Performance
+---
 
-Async/await architecture.
+## 🛠️ Tech Stack
 
-Error handling and logging.
+- [Node.js](https://nodejs.org/)
+- [Express.js](https://expressjs.com/)
+- [MongoDB](https://www.mongodb.com/)
+- [Mongoose](https://mongoosejs.com/)
+- [JWT](https://jwt.io/)
+- [Cookie-parser](https://www.npmjs.com/package/cookie-parser)
+- [CORS](https://www.npmjs.com/package/cors)
+- [dotenv](https://www.npmjs.com/package/dotenv)
 
-🔗 Frontend Integration
+---
 
-CORS configured for seamless React/Vite connectivity.
+## 📁 Folder Structure
 
-⚙️ Tech Stack
-Category	Technologies
-Backend	Node.js, Express.js
-Database	MongoDB (Mongoose ODM)
-Authentication	Firebase Admin SDK, JWT
-API Testing	Postman/Thunder Client
-Deployment	Render/Vercel (or your hosting)
-📡 API Endpoints
-🔐 Authentication
-Endpoint	Method	Description
-/api/auth/login	POST	Google Firebase login → JWT.
-🛎️ Services
-Endpoint	Method	Description
-/api/services	GET	Get all services (paginated).
-/api/services/:id	GET	Get single service by ID.
-/api/services/my-services	GET	Get logged-in user’s services.
-/api/services	POST	Create a new service.
-(Add more endpoints as needed.)
+```
 
-🛠️ Installation
-Clone the repo:
+srs-backend/
+├── controllers/
+│   ├── authController.js
+│   ├── serviceController.js
+│   └── reviewController.js
+├── middlewares/
+│   └── verifyJWT.js
+├── models/
+│   ├── Service.js
+│   ├── Review\.js
+│   └── User.js
+├── routes/
+│   ├── authRoutes.js
+│   ├── serviceRoutes.js
+│   └── reviewRoutes.js
+├── .env
+├── index.js
+├── package.json
+└── README.md
 
-bash
-git clone https://github.com/rantu01/srs-backend.git
-cd srs-backend
-Install dependencies:
+````
 
-bash
-npm install
-Set up environment variables:
-Create a .env file:
+---
 
-env
-MONGO_URI=your_mongodb_connection_string
-FIREBASE_PROJECT_ID=your_firebase_project_id
-JWT_SECRET=your_jwt_secret_key
-PORT=5000
-Run the server:
+## 🚀 Getting Started
 
-bash
-npm start
-🌐 Deployment
-Option 1: Render
-Create a new Web Service on Render.
+### Prerequisites
 
-Link your GitHub repo.
+- **Node.js** and **npm**
+- **MongoDB Atlas** or local MongoDB
 
-Add environment variables in the dashboard.
+### Installation
 
-Option 2: Vercel
-Configure vercel.json for Node.js:
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/rantu01/srs-backend.git
+   cd srs-backend
+````
 
-json
-{
-  "version": 2,
-  "builds": [{ "src": "index.js", "use": "@vercel/node" }]
-}
-📜 API Documentation
-For detailed request/response examples:
+2. **Install dependencies**
 
-Postman Collection: Download Link (if available)
+   ```bash
+   npm install
+   ```
 
-Sample Request:
+3. **Create a `.env` file**
 
-bash
-curl -X GET https://api.example.com/api/services
-🤝 Contributing
-Fork the repo.
+   ```env
+   PORT=5000
+   MONGODB_URI=your_mongodb_connection_string
+   JWT_SECRET=your_jwt_secret
+   ```
 
-Create a branch:
+4. **Run the server**
 
-bash
-git checkout -b feature/your-feature
-Commit changes:
+   ```bash
+   npm start
+   ```
 
-bash
-git commit -m "Add your feature"
-Push and open a Pull Request.
+API will be running on `http://localhost:5000`
 
-📄 License
-MIT © Rantu Mondal
+---
+
+## 🔐 Authentication
+
+* Users login/register and receive a JWT in an **HTTP-only cookie**
+* Use `verifyJWT` middleware to protect routes
+* Example request headers:
+
+  ```
+  Cookie: token=your_jwt_token
+  ```
+
+---
+
+## 🔄 API Endpoints
+
+### ✅ Auth Routes
+
+| Method | Endpoint        | Description              |
+| ------ | --------------- | ------------------------ |
+| POST   | `/api/register` | Register a new user      |
+| POST   | `/api/login`    | Login and set JWT cookie |
+| POST   | `/api/logout`   | Clear cookie and logout  |
+| GET    | `/api/me`       | Get current user         |
+
+### 📦 Service Routes
+
+| Method | Endpoint            | Description                     |
+| ------ | ------------------- | ------------------------------- |
+| GET    | `/api/services`     | Get all services                |
+| GET    | `/api/services/:id` | Get single service              |
+| POST   | `/api/services`     | Add new service (auth required) |
+
+### 💬 Review Routes
+
+| Method | Endpoint           | Description                     |
+| ------ | ------------------ | ------------------------------- |
+| GET    | `/api/reviews`     | Get all reviews                 |
+| GET    | `/api/reviews/:id` | Get reviews for a service       |
+| POST   | `/api/reviews`     | Add a review (auth required)    |
+| PATCH  | `/api/reviews/:id` | Update a review (auth required) |
+| DELETE | `/api/reviews/:id` | Delete a review (auth required) |
+
+---
+
+## 🙋‍♂️ Author
+
+**Rantu Mondal**
+🔗 [LinkedIn](https://www.linkedin.com/in/rantubytes)
+📧 [rantumondal06@gmail.com](mailto:rantumondal06@gmail.com)
+
+---
+
+## 📄 License
+
+Licensed under the [MIT License](LICENSE)
+
+---
+
+## 🧑‍💻 Contributing
+
+Contributions are welcome! Please fork this repo and submit a pull request with your changes.
+
+---
+
+## 🔗 Related
+
+* Frontend: [SRS](https://github.com/rantu01/SRS)
+
+```
+
+---
+
+Let me know if you'd like to include example request payloads, Swagger docs, or a Postman collection link!
+```
