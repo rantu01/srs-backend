@@ -160,31 +160,49 @@ async function run() {
 
     // Get all services
     app.get("/services", async (req, res) => {
-      try {
-        const { search = "", category = "" } = req.query;
+  try {
+    const { search = "", category = "", sort = "" } = req.query;
 
-        const query = {};
+    const query = {};
 
-        if (search) {
-          const regex = new RegExp(search, "i"); // case-insensitive
-          query.$or = [
-            { title: regex },
-            { category: regex },
-            { company: regex },
-          ];
-        }
+    if (search) {
+      const regex = new RegExp(search, "i"); // case-insensitive
+      query.$or = [
+        { title: regex },
+        { category: regex },
+        { company: regex },
+      ];
+    }
 
-        if (category) {
-          query.category = category;
-        }
+    if (category) {
+      query.category = category;
+    }
 
-        const allServices = await servicesCollection.find(query).toArray();
-        res.send(allServices);
-      } catch (error) {
-        console.error("Error fetching services:", error);
-        res.status(500).send({ error: "Failed to fetch services" });
-      }
-    });
+    let sortOption = {}; // 🟢 Default: no sorting
+
+    // Add sorting logic
+    if (sort === "price_asc") {
+      sortOption.price = 1;
+    } else if (sort === "price_desc") {
+      sortOption.price = -1;
+    } else if (sort === "latest") {
+      sortOption.createdAt = -1;
+    } else if (sort === "oldest") {
+      sortOption.createdAt = 1;
+    }
+
+    const allServices = await servicesCollection
+      .find(query)
+      .sort(sortOption) // 🟢 apply sorting
+      .toArray();
+
+    res.send(allServices);
+  } catch (error) {
+    console.error("Error fetching services:", error);
+    res.status(500).send({ error: "Failed to fetch services" });
+  }
+});
+
 
     // Get featured services (limit 6)
     app.get("/featured-services", async (req, res) => {
