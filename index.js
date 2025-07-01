@@ -207,7 +207,7 @@ async function run() {
     // Get featured services (limit 6)
     app.get("/featured-services", async (req, res) => {
       try {
-        const featured = await servicesCollection.find().limit(6).toArray();
+        const featured = await servicesCollection.find().limit(8).toArray();
         res.send(featured);
       } catch (error) {
         res.status(500).send({ error: "Failed to fetch featured services" });
