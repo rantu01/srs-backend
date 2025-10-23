@@ -10,6 +10,7 @@ const servicesRoute = require("./routes/services");
 const reviewsRoute = require("./routes/reviews");
 const usersRoute = require("./routes/users");
 const statsRoute = require("./routes/stats");
+const blogsRoute = require("./routes/blogs");
 // AI Chat route
 //const aiChatRoute = require("./routes/aiChat");
 
@@ -34,6 +35,7 @@ const PORT = process.env.PORT || 5000;
   app.use("/reviews", reviewsRoute(db));
   app.use("/users", usersRoute(db));
   app.use("/stats", statsRoute(db));
+  app.use("/blogs", blogsRoute(db));
 
   // Add AI Chat route
   // app.use("/aiChat", aiChatRoute(db));
