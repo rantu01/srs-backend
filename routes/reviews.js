@@ -21,7 +21,7 @@ module.exports = (db) => {
   });
 
   // Add a new review
-  router.post("/", verifyFirebaseToken, async (req, res) => {
+  router.post("/",  async (req, res) => {
     const { serviceId, userName, userPhoto, text, rating, date, userEmail, serviceTitle } = req.body;
     if (!serviceId || !userName || !text || !rating || !date) {
       return res.status(400).send({ error: "Missing required fields" });
@@ -43,14 +43,14 @@ module.exports = (db) => {
   });
 
   // Get reviews by user email
-  router.get("/my-reviews", verifyFirebaseToken, verifyTokenEmail, async (req, res) => {
+  router.get("/my-reviews",  async (req, res) => {
     const { userEmail } = req.query;
     const reviews = await reviewsCollection.find({ userEmail }).toArray();
     res.send(reviews);
   });
 
   // Update review
-  router.put("/:id", verifyFirebaseToken, async (req, res) => {
+  router.put("/:id",  async (req, res) => {
     const { id } = req.params;
     const { text, rating } = req.body;
 
@@ -67,7 +67,7 @@ module.exports = (db) => {
   });
 
   // Delete review
-  router.delete("/:id", verifyFirebaseToken, async (req, res) => {
+  router.delete("/:id",  async (req, res) => {
     const { id } = req.params;
     const result = await reviewsCollection.deleteOne({ _id: new ObjectId(id) });
 

@@ -7,7 +7,7 @@ const router = express.Router();
 module.exports = (db) => {
   const servicesCollection = db.collection("services");
 
-  router.post("/", verifyFirebaseToken, async (req, res) => {
+  router.post("/",  async (req, res) => {
     const service = req.body;
     const result = await servicesCollection.insertOne(service);
     res.send({ insertedId: result.insertedId });
@@ -23,7 +23,7 @@ module.exports = (db) => {
     res.send(service);
   });
 
-  router.put("/:id", verifyFirebaseToken, async (req, res) => {
+  router.put("/:id",  async (req, res) => {
     const result = await servicesCollection.updateOne(
       { _id: new ObjectId(req.params.id) },
       { $set: req.body }
@@ -31,7 +31,7 @@ module.exports = (db) => {
     res.send({ modifiedCount: result.modifiedCount });
   });
 
-  router.delete("/:id", verifyFirebaseToken, async (req, res) => {
+  router.delete("/:id",  async (req, res) => {
     const result = await servicesCollection.deleteOne({ _id: new ObjectId(req.params.id) });
     res.send({ deletedCount: result.deletedCount });
   });

@@ -7,7 +7,7 @@ module.exports = (db) => {
   const usersCollection = db.collection("users");
 
   // Add a user
-  router.post("/", verifyFirebaseToken, async (req, res) => {
+  router.post("/",  async (req, res) => {
     const { email, name, photoURL } = req.body;
     if (!email) return res.status(400).send({ error: "Email is required" });
 
