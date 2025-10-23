@@ -10,6 +10,8 @@ const servicesRoute = require("./routes/services");
 const reviewsRoute = require("./routes/reviews");
 const usersRoute = require("./routes/users");
 const statsRoute = require("./routes/stats");
+// AI Chat route
+const aiChatRoute = require("./routes/aiChat");
 
 const app = express();
 
@@ -32,6 +34,9 @@ const PORT = process.env.PORT || 5000;
   app.use("/reviews", reviewsRoute(db));
   app.use("/users", usersRoute(db));
   app.use("/stats", statsRoute(db));
+
+  // Add AI Chat route
+  app.use("/aiChat", aiChatRoute(db));
 
   app.get("/", (req, res) => res.send("Service Review System running"));
 
